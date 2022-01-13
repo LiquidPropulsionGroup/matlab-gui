@@ -1,4 +1,4 @@
-classdef State
+classdef State < handle
     properties
         FUEL_Press;
         LOX_Press;
@@ -40,9 +40,12 @@ classdef State
         function post(obj)
             
             % message = stateToMessage(obj)
-            url = strcat(obj.ip,':3003/serial/valve/update');
+            %url = strcat('http://',obj.ip,':3003/serial/valve/update');
+            url = 'http://httpbin.org/post';
             response = webwrite(url, stateToMessage(obj));
+            disp(response)
             
         end
         
     end
+end
