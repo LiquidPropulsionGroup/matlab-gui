@@ -33,15 +33,26 @@ classdef State < handle
                     obj.LOX_Purge;
                 ];
             
-            out = jsonencode(A);
+            KeyList = {
+                    'FUEL_Press',
+                    'LOX_Press',
+                    'FUEL_Vent',
+                    'LOX_Vent',
+                    'MAIN',
+                    'FUEL_Purge',
+                    'LOX_Purge'
+                };
+            
+            out = jsonencode(containers.Map(KeyList,A));
+            disp(out)
             
         end
         
         function post(obj)
             
             % message = stateToMessage(obj)
-            %url = strcat('http://',obj.ip,':3003/serial/valve/update');
-            url = 'http://httpbin.org/post';
+            url = strcat('http://',obj.ip,':3003/serial/valve/update');
+%             url = 'http://httpbin.org/post';
             response = webwrite(url, stateToMessage(obj));
             disp(response)
             
