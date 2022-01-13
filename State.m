@@ -7,6 +7,7 @@ classdef State
         MAIN;
         FUEL_Purge;
         LOX_Purge;
+        ip;
     end
     
     methods
@@ -21,9 +22,7 @@ classdef State
             obj.LOX_Purge = false;
         end
         
-    methods (Static)
-        
-        function out = stateToMessage()
+        function out = stateToMessage(obj)
            
             A = [   obj.FUEL_Press;
                     obj.LOX_Press;
@@ -35,6 +34,14 @@ classdef State
                 ];
             
             out = jsonencode(A);
+            
+        end
+        
+        function post(obj)
+            
+            % message = stateToMessage(obj)
+            url = strcat(obj.ip,':3003/serial/valve/update');
+            response = webwrite(url, stateToMessage(obj));
             
         end
         
