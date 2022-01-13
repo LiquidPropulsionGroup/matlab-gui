@@ -12,15 +12,30 @@ classdef State
     methods
         % Default constructor
         function obj = State()
-            obj.FUEL_Press = False;
-            obj.LOX_Press = False;
-            obj.FUEL_Vent = True;
-            obj.LOX_Vent = True;
-            obj.MAIN = False;
-            obj.FUEL_Purge = False;
-            obj.LOX_Purge = False;
+            obj.FUEL_Press = false;
+            obj.LOX_Press = false;
+            obj.FUEL_Vent = true;
+            obj.LOX_Vent = true;
+            obj.MAIN = false;
+            obj.FUEL_Purge = false;
+            obj.LOX_Purge = false;
         end
         
+    methods (Static)
         
+        function out = stateToMessage()
+           
+            A = [   obj.FUEL_Press;
+                    obj.LOX_Press;
+                    obj.FUEL_Vent;
+                    obj.LOX_Vent;
+                    obj.MAIN;
+                    obj.FUEL_Purge;
+                    obj.LOX_Purge;
+                ];
+            
+            out = jsonencode(A);
+            
+        end
         
     end
