@@ -1,4 +1,4 @@
-classdef State < handle
+classdef State < matlab.DiscreteEventSystem
     properties
         FUEL_Press;
         LOX_Press;
