@@ -8,6 +8,7 @@ classdef State < matlab.DiscreteEventSystem
         FUEL_Purge;
         LOX_Purge;
         ip;
+        sequence;
     end
     
     methods
@@ -20,6 +21,9 @@ classdef State < matlab.DiscreteEventSystem
             obj.MAIN = false;
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
+            
+            % debug parse
+            parseSequence(obj, "sequence.json")
         end
         
         function out = stateToMessage(obj)
@@ -55,6 +59,12 @@ classdef State < matlab.DiscreteEventSystem
 %             url = 'http://httpbin.org/post';
             response = webwrite(url, stateToMessage(obj));
             disp(response)
+            
+        end
+        
+        function parseSequence(obj, list)
+           
+            obj.sequence = jsondecode(list);
             
         end
         
