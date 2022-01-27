@@ -1,0 +1,50 @@
+{
+    
+    "Name": "Press",
+    "Duration": 3,
+    "State": {
+        "FUEL_Press": 1,
+        "LOX_Press": 1,
+        "FUEL_Vent": 0,
+        "LOX_Vent": 0,
+        "MAIN": 0,
+        "FUEL_Purge": 0,
+        "LOX_Purge": 0
+    }
+    
+
+}
+
+{
+    
+    "Name": "FIRE",
+    "Duration": 3,
+    "State": {
+        "FUEL_Press": 1,
+        "LOX_Press": 1,
+        "FUEL_Vent": 0,
+        "LOX_Vent": 0,
+        "MAIN": 1,
+        "FUEL_Purge": 0,
+        "LOX_Purge": 0
+    }
+    
+
+}
+
+{
+    
+    "Name": "Purge (debug combined)",
+    "Duration": 3,
+    "State": {
+        "FUEL_Press": 0,
+        "LOX_Press": 0,
+        "FUEL_Vent": 0,
+        "LOX_Vent": 0,
+        "MAIN": 0,
+        "FUEL_Purge": 1,
+        "LOX_Purge": 1
+    }
+    
+
+}
