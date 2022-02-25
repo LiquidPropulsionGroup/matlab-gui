@@ -9,6 +9,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
         LOX_Purge;
         ip;
         sequence;
+        timers;
     end
     
     methods
@@ -23,7 +24,10 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.LOX_Purge = false;
             
             % debug parse
-            % parseSequence(obj, "sequence.json")
+            parseSequence(obj, "sequence.json")
+            tic
+            start(obj.timers(1))
+            
         end
         
         function out = stateToMessage(obj)
@@ -68,6 +72,53 @@ classdef StateMachine < matlab.DiscreteEventSystem
             jsonObj = char(fread(file));
             obj.sequence = jsondecode(jsonObj');
             fclose(file);
+            
+            % create timer arry
+            
+            % parse the durations and names
+            sequenceDurations = [];
+            sequenceNames = {};
+            struct_names = fieldnames(obj.sequence);
+            
+            for i = 1:length(struct_names)
+                
+                sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration;
+                sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name;
+            end
+%             disp(sequenceDurations)
+%             disp(sequenceNames)
+
+            % generate timers
+            obj.timers = timer.empty(length(sequenceDurations),0);
+            for i = 1:length(sequenceDurations)
+                obj.timers(i) = timer( ...
+                    'Name', sequenceNames{i}, ...
+                    'ExecutionMode', 'singleShot', ...
+                    'StartDelay', sequenceDurations(i), ...
+                    'TimerFcn', {@obj.timerReadPost, i});
+            end
+            
+        end
+        
+        % executes event
+        function timerReadPost(obj, event, i)
+            
+            toc
+            struct_names = fieldnames(obj.sequence);
+            state = getfield(obj.sequence, struct_names{i}).State;
+            
+            obj.FUEL_Press = getfield(state, obj.KeyList{1});
+            obj.LOX_Press = getfield(state, obj.KeyList{2});
+            obj.FUEL_Vent = getfield(state, obj.KeyList{3});
+            obj.LOX_Vent = getfield(state, obj.KeyList{4});
+            obj.MAIN = getfield(state, obj.KeyList{5});
+            obj.FUEL_Purge = getfield(state, obj.KeyList{6});
+            obj.LOX_Purge = getfield(state, obj.KeyList{7}); % weird fix
+            
+            obj.post();           
+            
+            tic
+            start(obj.timers(i+1));
         end
         
     end
