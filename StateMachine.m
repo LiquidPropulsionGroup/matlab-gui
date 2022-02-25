@@ -10,6 +10,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
         ip;
         sequence;
         timers;
+        n;
+        KeyList;
     end
     
     methods
@@ -22,6 +24,18 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.MAIN = false;
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
+            
+            obj.n = 1;
+            
+            obj.KeyList = {
+                    'FUEL_Press',
+                    'LOX_Press',
+                    'FUEL_Vent',
+                    'LOX_Vent',
+                    'MAIN',
+                    'FUEL_Purge',
+                    'LOX_Purge'
+                };
             
             % debug parse
             parseSequence(obj, "sequence.json")
@@ -41,17 +55,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     obj.LOX_Purge;
                 ];
             
-            KeyList = {
-                    'FUEL_Press',
-                    'LOX_Press',
-                    'FUEL_Vent',
-                    'LOX_Vent',
-                    'MAIN',
-                    'FUEL_Purge',
-                    'LOX_Purge'
-                };
-            
-            out = jsonencode(containers.Map(KeyList,A));
+            out = jsonencode(containers.Map(obj.KeyList,A));
             disp(out)
             
         end
@@ -91,21 +95,24 @@ classdef StateMachine < matlab.DiscreteEventSystem
             % generate timers
             obj.timers = timer.empty(length(sequenceDurations),0);
             for i = 1:length(sequenceDurations)
+                
+%                 disp(i)
+%                 A = sprintf('obj.timerReadPost({%d})', i)
                 obj.timers(i) = timer( ...
                     'Name', sequenceNames{i}, ...
                     'ExecutionMode', 'singleShot', ...
-                    'StartDelay', sequenceDurations(i), ...
-                    'TimerFcn', {@obj.timerReadPost, i});
+                    'StartDelay', sequenceDurations(i));
+                obj.timers(i).TimerFcn = @(~,~)obj.timerReadPost;
             end
             
         end
         
         % executes event
-        function timerReadPost(obj, event, i)
+        function timerReadPost(obj)
             
             toc
             struct_names = fieldnames(obj.sequence);
-            state = getfield(obj.sequence, struct_names{i}).State;
+            state = getfield(obj.sequence, struct_names{obj.n}).State;
             
             obj.FUEL_Press = getfield(state, obj.KeyList{1});
             obj.LOX_Press = getfield(state, obj.KeyList{2});
@@ -118,7 +125,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.post();           
             
             tic
-            start(obj.timers(i+1));
+            obj.n = obj.n+1;
+            start(obj.timers(obj.n));
         end
         
     end
