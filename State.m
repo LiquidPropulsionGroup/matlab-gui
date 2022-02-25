@@ -64,7 +64,9 @@ classdef State < matlab.DiscreteEventSystem
         
         function parseSequence(obj, list)
            
-            obj.sequence = jsondecode(list);
+            file = fopen(list, 'r');
+            jsonObj = char(fread(file));
+            obj.sequence = jsondecode(jsonObj');
             
         end
         
