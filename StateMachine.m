@@ -1,4 +1,4 @@
-classdef State < matlab.DiscreteEventSystem
+classdef StateMachine < matlab.DiscreteEventSystem
     properties
         FUEL_Press;
         LOX_Press;
@@ -13,7 +13,7 @@ classdef State < matlab.DiscreteEventSystem
     
     methods
         % Default constructor
-        function obj = State()
+        function obj = StateMachine()
             obj.FUEL_Press = false;
             obj.LOX_Press = false;
             obj.FUEL_Vent = true;
@@ -23,7 +23,7 @@ classdef State < matlab.DiscreteEventSystem
             obj.LOX_Purge = false;
             
             % debug parse
-            parseSequence(obj, "sequence.json")
+            % parseSequence(obj, "sequence.json")
         end
         
         function out = stateToMessage(obj)
@@ -67,7 +67,7 @@ classdef State < matlab.DiscreteEventSystem
             file = fopen(list, 'r');
             jsonObj = char(fread(file));
             obj.sequence = jsondecode(jsonObj');
-            
+            fclose(file);
         end
         
     end
