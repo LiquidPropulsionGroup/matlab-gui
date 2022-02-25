@@ -38,9 +38,9 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 };
             
             % debug parse
-            parseSequence(obj, "sequence.json")
-            tic
-            start(obj.timers(1))
+%             parseSequence(obj, "sequence.json")
+%             tic
+%             start(obj.timers(1))
             
         end
         
@@ -78,6 +78,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             fclose(file);
             
             % create timer arry
+            obj.n = 1;
             
             % parse the durations and names
             sequenceDurations = [];
@@ -102,7 +103,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     'Name', sequenceNames{i}, ...
                     'ExecutionMode', 'singleShot', ...
                     'StartDelay', sequenceDurations(i));
-                obj.timers(i).TimerFcn = @(~,~)obj.timerReadPost;
+                obj.timers(i).StartFcn = @(~,~)obj.timerReadPost;
+                obj.timers(i).TimerFcn = @(~,~)obj.timerNext;
             end
             
         end
@@ -110,7 +112,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
         % executes event
         function timerReadPost(obj)
             
-            toc
+            tic
             struct_names = fieldnames(obj.sequence);
             state = getfield(obj.sequence, struct_names{obj.n}).State;
             
@@ -124,10 +126,19 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
             obj.post();           
             
-            tic
-            obj.n = obj.n+1;
-            start(obj.timers(obj.n));
         end
+        
+        function timerNext(obj)
+            toc;
+            obj.n = obj.n+1;
+           
+            try
+                start(obj.timers(obj.n));
+            catch
+                disp("Done");                
+            end
+           % start(obj.timers(obj.n)); 
+        end  
         
     end
 end

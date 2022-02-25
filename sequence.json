@@ -2,7 +2,7 @@
     
     "0": 
     {
-        "Name": "Press",
+        "Name": "Timeout",
         "Duration": 3,
         "State": {
             "FUEL_Press": true,
@@ -18,8 +18,8 @@
     "1":
     {
 
-        "Name": "Press2",
-        "Duration": 3,
+        "Name": "Long after timeout",
+        "Duration": 6,
         "State": {
             "FUEL_Press": true,
             "LOX_Press": true,
@@ -35,8 +35,8 @@
     "2":
     {
 
-        "Name": "Press3",
-        "Duration": 3,
+        "Name": "Extra Long",
+        "Duration": 7,
         "State": {
             "FUEL_Press": true,
             "LOX_Press": true,
