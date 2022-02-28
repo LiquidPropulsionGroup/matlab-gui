@@ -56,7 +56,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 ];
             
             out = jsonencode(containers.Map(obj.KeyList,A));
-            disp(out)
+%             disp(out)
             
         end
         
@@ -131,14 +131,46 @@ classdef StateMachine < matlab.DiscreteEventSystem
         function timerNext(obj)
             toc;
             obj.n = obj.n+1;
-           
+            
+%             start(obj.timers(obj.n));
+%             MException.last
+            
             try
                 start(obj.timers(obj.n));
-            catch
-                disp("Done");                
+            catch ME
+                if strcmp( ME.identifier, "MATLAB:badsubscript")
+%                     disp(ME.identifier);
+                    stop(obj.timers);
+                    delete(obj.timers);
+                    disp("Done");
+                else
+                    disp("Different Error");
+                    rethrow( ME );
+                end 
             end
            % start(obj.timers(obj.n)); 
         end  
         
+        function stopTimer(obj)
+           stop(obj.timers);
+           disp("Timer Stopped. Next timer:");
+           disp(obj.n);
+        end
+        
+        function safe(obj)
+            
+            % hardcode safe state (same as constructor)
+            obj.FUEL_Press = false;
+            obj.LOX_Press = false;
+            obj.FUEL_Vent = true;
+            obj.LOX_Vent = true;
+            obj.MAIN = false;
+            obj.FUEL_Purge = false;
+            obj.LOX_Purge = false;
+            
+            stop(obj.timers);
+            delete(obj.timers);
+            obj.post();
+        end
     end
 end
