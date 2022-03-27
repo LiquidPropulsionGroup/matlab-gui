@@ -60,15 +60,21 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
         end
         
-        function response = post(obj)
+        function responseParsed = post(obj)
             
             % message = stateToMessage(obj)
-%             url = strcat('http://',obj.ip,':3003/serial/valve/update');
+            url = strcat('http://',obj.ip,':3003/serial/valve/update');
 %             url = 'http://httpbin.org/post';
-%             response = webwrite(url, stateToMessage(obj));
-            response = 1;
-%             disp(response)
+            response = webwrite(url, stateToMessage(obj));
+%             response = 1;
+            disp(response)
+            responseParsed = parseResponse(obj, response);
             
+        end
+        
+        function responseParsed = parseResponse(obj, response)
+            %% Manipulate Response data to match valve openness
+            responseParsed = "test";
         end
         
         function parseSequence(obj, list)
