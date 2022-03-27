@@ -163,8 +163,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
             % hardcode safe state (same as constructor)
             obj.FUEL_Press = false;
             obj.LOX_Press = false;
-            obj.FUEL_Vent = true;
-            obj.LOX_Vent = true;
+            obj.FUEL_Vent = false;
+            obj.LOX_Vent = false;
             obj.MAIN = false;
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;

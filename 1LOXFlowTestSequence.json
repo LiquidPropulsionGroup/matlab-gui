@@ -3,7 +3,7 @@
     "0": 
     {
         "Name": "Safe State",
-        "Duration": 3,
+        "Duration": 5,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
@@ -19,11 +19,11 @@
     {
 
         "Name": "Pressurization",
-        "Duration": 10,
+        "Duration": 5,
         "State": {
-            "FUEL_Press": true,
+            "FUEL_Press": false,
             "LOX_Press": true,
-            "FUEL_Vent": true,
+            "FUEL_Vent": false,
             "LOX_Vent": true,
             "MAIN": false,
             "FUEL_Purge": false,
@@ -38,9 +38,9 @@
         "Name": "Fire",
         "Duration": 10,
         "State": {
-            "FUEL_Press": true,
+            "FUEL_Press": false,
             "LOX_Press": true,
-            "FUEL_Vent": true,
+            "FUEL_Vent": false,
             "LOX_Vent": true,
             "MAIN": true,
             "FUEL_Purge": false,
@@ -52,15 +52,15 @@
     "3":
     {
 
-        "Name": "De Press",
-        "Duration": 5,
+        "Name": "Line Pruge",
+        "Duration": 2,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
             "FUEL_Vent": false,
-            "LOX_Vent": false,
+            "LOX_Vent": true,
             "MAIN": false,
-            "FUEL_Purge": true,
+            "FUEL_Purge": false,
             "LOX_Purge": true
         }
 

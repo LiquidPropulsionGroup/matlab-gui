@@ -19,7 +19,7 @@
     {
 
         "Name": "Pressurization",
-        "Duration": 10,
+        "Duration": 5,
         "State": {
             "FUEL_Press": true,
             "LOX_Press": true,
@@ -52,13 +52,13 @@
     "3":
     {
 
-        "Name": "De Press",
+        "Name": "Line Purge",
         "Duration": 5,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
-            "FUEL_Vent": false,
-            "LOX_Vent": false,
+            "FUEL_Vent": true,
+            "LOX_Vent": true,
             "MAIN": false,
             "FUEL_Purge": true,
             "LOX_Purge": true
