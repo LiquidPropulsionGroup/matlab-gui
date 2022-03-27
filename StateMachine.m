@@ -67,14 +67,9 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %             url = 'http://httpbin.org/post';
             response = webwrite(url, stateToMessage(obj));
 %             response = 1;
-            disp(response)
-            responseParsed = parseResponse(obj, response);
+%             disp(response)
+            responseParsed = parseResponse(response);
             
-        end
-        
-        function responseParsed = parseResponse(obj, response)
-            %% Manipulate Response data to match valve openness
-            responseParsed = "test";
         end
         
         function parseSequence(obj, list)
@@ -179,5 +174,33 @@ classdef StateMachine < matlab.DiscreteEventSystem
             delete(obj.timers);
             obj.post();
         end
+    end
+end
+
+function responseParsed = parseResponse(response)
+    %% Manipulate Response data into boolean for Callback UI Updates
+    disp(response)
+    responseParsed.FUEL_Press = tern(response.FUEL_Press, '48', 'CLOSED', '49', 'OPEN');
+    responseParsed.FUEL_Purge = tern(response.FUEL_Press, '48', 'CLOSED', '49', 'OPEN');
+    responseParsed.FUEL_Vent  = tern(response.FUEL_Press, '48', 'OPEN', '49', 'CLOSED');
+    responseParsed.LOX_Press  = tern(response.FUEL_Press, '48', 'CLOSED', '49', 'OPEN');
+    responseParsed.LOX_Purge  = tern(response.FUEL_Press, '48', 'CLOSED', '49', 'OPEN');
+    responseParsed.LOX_Vent   = tern(response.FUEL_Press, '48', 'OPEN', '49', 'CLOSED');
+    responseParsed.MAIN       = tern(response.FUEL_Press, '48', 'CLOSED', '49', 'OPEN');
+end
+
+function result = tern(input, conditionOne, exprIfOne, conditionTwo, exprIfTwo)
+    %% Error-catching ternary operator function
+    % IF input matches conditionOne, return exprIfTrue
+    % ELIF input matches conditionTwo, return exprIfFalse
+    % ELSE throw an error
+    if ( input == conditionOne )
+        result = exprIfOne;
+    elseif ( input == conditionTwo )
+        result = exprIfTwo;
+    else
+        ME = MException('tern:nonMatchingInput', ...
+            'Input "%d" does not match either conditions', input);
+        throw(ME)
     end
 end
