@@ -60,13 +60,14 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
         end
         
-        function post(obj)
+        function response = post(obj)
             
             % message = stateToMessage(obj)
-            url = strcat('http://',obj.ip,':3003/serial/valve/update');
+%             url = strcat('http://',obj.ip,':3003/serial/valve/update');
 %             url = 'http://httpbin.org/post';
-            response = webwrite(url, stateToMessage(obj));
-            disp(response)
+%             response = webwrite(url, stateToMessage(obj));
+            response = 1;
+%             disp(response)
             
         end
         
