@@ -14,7 +14,7 @@ classdef Sequence
         function obj = Sequence(import_json)
             %SEQUENCE Construct an instance of this class
             
-            obj.sequence = jsondecode(import_json)
+            obj.sequence = jsondecode(import_json);
         end
         
         function outputArg = method1(obj,inputArg)

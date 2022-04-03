@@ -75,7 +75,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
         function parseSequence(obj, list)
            
             file = fopen(list, 'r');
-            jsonObj = char(fread(file));
+%             jsonObj = char(fread(file));
+            jsonObj = fread(file,'*char');
             obj.sequence = jsondecode(jsonObj');
             fclose(file);
             
@@ -88,7 +89,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
             struct_names = fieldnames(obj.sequence);
             
             for i = 1:length(struct_names)
-                
                 sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration;
                 sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name;
             end
