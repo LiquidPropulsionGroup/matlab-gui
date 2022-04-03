@@ -60,6 +60,22 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
         end
         
+        function poll(obj)
+            % Request a valve status update from the stand
+            url = strcat('http://',obj.ip,':3003/serial/valve/update');
+            options = weboptions;
+            options.RequestMethod = 'get';
+            options.Timeout = 1;
+            try
+                response = webread(url,options); 
+                disp(response)
+            catch ME
+                if (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
+                    disp('TIMEOUT')
+                end
+            end
+        end
+        
         function responseParsed = post(obj)
             
             % message = stateToMessage(obj)
