@@ -71,23 +71,28 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 responseParsed = parseResponse(response);
 %                 disp(response)
             catch ME
+%                 disp(ME)
                 if (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
-                    disp('=== TIMEOUT ===')
+                    disp('=== TIMEOUT ON POLL ===')
                 end
             end
             
         end
         
         function responseParsed = post(obj)
-            
-            % message = stateToMessage(obj)
+            % Post a valve state to the stand
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
-%             url = 'http://httpbin.org/post';
-            response = webwrite(url, stateToMessage(obj));
-%             response = 1;
-%             disp(response)
-            responseParsed = parseResponse(response);
-            
+            options = weboptions;
+            options.Timeout = 1;
+            try
+                response = webwrite(url, stateToMessage(obj));
+                responseParsed = parseResponse(response);
+            catch ME
+%                 disp(ME)
+                if (strcmp(ME.identifier,'MATLAB:webservices:ConnectionRefused'))
+                    disp('=== POST REFUSED ===')
+                end
+            end
         end
         
         function parseSequence(obj, list)
