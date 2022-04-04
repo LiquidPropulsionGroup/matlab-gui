@@ -60,20 +60,22 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
         end
         
-        function poll(obj)
+        function responseParsed = poll(obj)
             % Request a valve status update from the stand
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
             options = weboptions;
             options.RequestMethod = 'get';
             options.Timeout = 1;
             try
-                response = webread(url,options); 
-                disp(response)
+                response = webread(url,options);
+                responseParsed = parseResponse(response);
+%                 disp(response)
             catch ME
                 if (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
-                    disp('TIMEOUT')
+                    disp('=== TIMEOUT ===')
                 end
             end
+            
         end
         
         function responseParsed = post(obj)
@@ -195,7 +197,7 @@ end
 
 function responseParsed = parseResponse(response)
     %% Manipulate Response data into boolean for Callback UI Updates
-    disp(response)
+%     disp(response)
     responseParsed.FUEL_Press = tern(response.FUEL_Press, '49', 'CLOSED', '48', 'OPEN');
     responseParsed.FUEL_Purge = tern(response.FUEL_Purge, '49', 'CLOSED', '48', 'OPEN');
     responseParsed.FUEL_Vent  = tern(response.FUEL_Vent, '49', 'OPEN', '48', 'CLOSED');
@@ -203,7 +205,7 @@ function responseParsed = parseResponse(response)
     responseParsed.LOX_Purge  = tern(response.LOX_Purge, '49', 'CLOSED', '48', 'OPEN');
     responseParsed.LOX_Vent   = tern(response.LOX_Vent, '49', 'OPEN', '48', 'CLOSED');
     responseParsed.MAIN       = tern(response.MAIN, '49', 'CLOSED', '48', 'OPEN');
-    disp(responseParsed)
+%     disp(responseParsed)
 end
 
 function result = tern(input, conditionOne, exprIfOne, conditionTwo, exprIfTwo)
@@ -211,19 +213,19 @@ function result = tern(input, conditionOne, exprIfOne, conditionTwo, exprIfTwo)
     % IF input matches conditionOne, return exprIfTrue
     % ELIF input matches conditionTwo, return exprIfFalse
     % ELSE throw an error
-    disp(input)
-    disp(conditionOne)
-    disp(conditionTwo)
+%     disp(input)
+%     disp(conditionOne)
+%     disp(conditionTwo)
     if ( input == conditionOne )
-        disp("Match cond 1")
+%         disp("Match cond 1")
         result = exprIfOne;
     elseif ( input == conditionTwo )
-        disp("Match cond 2")
+%         disp("Match cond 2")
         result = exprIfTwo;
     else
         ME = MException('tern:nonMatchingInput', ...
             'Input "%d" does not match either conditions', input);
         throw(ME)
     end
-    disp(result)
+%     disp(result)
 end
