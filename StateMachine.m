@@ -12,11 +12,12 @@ classdef StateMachine < matlab.DiscreteEventSystem
         timers;
         n;
         KeyList;
+        app;
     end
     
     methods
         % Default constructor
-        function obj = StateMachine()
+        function obj = StateMachine(app)
             obj.FUEL_Press = false;
             obj.LOX_Press = false;
             obj.FUEL_Vent = true;
@@ -36,7 +37,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     'FUEL_Purge',
                     'LOX_Purge'
                 };
-            
+
+            obj.app = app;
             % debug parse
 %             parseSequence(obj, "sequence.json")
 %             tic
@@ -83,7 +85,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             % Post a valve state to the stand
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
             options = weboptions;
-            options.Timeout = 1;
+            options.Timeout = 5;
             try
                 response = webwrite(url, stateToMessage(obj));
                 responseParsed = parseResponse(response);
@@ -91,6 +93,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %                 disp(ME)
                 if (strcmp(ME.identifier,'MATLAB:webservices:ConnectionRefused'))
                     disp('=== POST REFUSED ===')
+                elseif (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
+                    disp('=== POST TIMEOUT ===')
                 end
             end
         end
@@ -103,7 +107,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.sequence = jsondecode(jsonObj');
             fclose(file);
             
-            % create timer arry
+            % create timer array
             obj.n = 1;
             
             % parse the durations and names
@@ -136,7 +140,22 @@ classdef StateMachine < matlab.DiscreteEventSystem
         
         % executes event
         function timerReadPost(obj)
-            
+%             disp(num2str(i))
+            % Mark the previous node as expired
+            try
+                obj.app.colorizeTreeNode(obj.n-1,'expired')
+            catch ME
+                % Do nothing
+            end
+            % Mark the current node as running
+            obj.app.colorizeTreeNode(obj.n,'running')
+            % Mark the next node as waiting
+            try
+                obj.app.colorizeTreeNode(obj.n+1,'waiting')
+            catch ME
+                % Do nothing
+            end
+
             tic
             struct_names = fieldnames(obj.sequence);
             state = getfield(obj.sequence, struct_names{obj.n}).State;
@@ -149,7 +168,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.FUEL_Purge = getfield(state, obj.KeyList{6});
             obj.LOX_Purge = getfield(state, obj.KeyList{7}); % weird fix
             
-            obj.post();           
+            obj.post();
             
         end
         
