@@ -1,0 +1,28 @@
+{
+  "x1": {
+    "Name": "test1",
+    "Duration": 3,
+    "State": {
+      "FUEL_Press": true,
+      "LOX_Press": true,
+      "FUEL_Vent": false,
+      "LOX_Vent": false,
+      "MAIN": true,
+      "FUEL_Purge": true,
+      "LOX_Purge": true
+    }
+  },
+  "x2": {
+    "Name": "test2",
+    "Duration": 3,
+    "State": {
+      "FUEL_Press": false,
+      "LOX_Press": false,
+      "FUEL_Vent": true,
+      "LOX_Vent": true,
+      "MAIN": false,
+      "FUEL_Purge": false,
+      "LOX_Purge": false
+    }
+  }
+}
