@@ -116,8 +116,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
             struct_names = fieldnames(obj.sequence)
             
             for i = 1:length(struct_names)
-                sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration
-                sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name
+                sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration;
+                sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name;
             end
 %             disp(sequenceDurations)
 %             disp(sequenceNames)
