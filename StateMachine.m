@@ -85,7 +85,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             % Post a valve state to the stand
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
             options = weboptions;
-            options.Timeout = 5;
+            options.Timeout = 1;
             try
                 response = webwrite(url, stateToMessage(obj));
                 responseParsed = parseResponse(response);
@@ -212,7 +212,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
             
-            stop(obj.timers);
+%             stop(obj.timers);
             delete(obj.timers);
             obj.post();
         end
