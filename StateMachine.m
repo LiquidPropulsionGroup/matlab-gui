@@ -196,9 +196,18 @@ classdef StateMachine < matlab.DiscreteEventSystem
         end  
         
         function stopTimer(obj)
-           stop(obj.timers);
-           disp("Timer Stopped. Next timer:");
-           disp(obj.n);
+            stop(obj.timers);
+            disp("Timer Stopped. Next timer:");
+            disp(obj.n);
+        end
+
+        function abortTimer(obj)
+            stop(obj.timers);
+            disp("TIMERS ABORTED");
+            disp(obj.n);
+            for j = 1:length(obj.timers)
+                obj.app.colorizeTreeNode(obj.j,'waiting');
+            end
         end
         
         function safe(obj)
