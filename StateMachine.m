@@ -206,7 +206,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             disp("TIMERS ABORTED");
             disp(obj.n);
             for j = 1:length(obj.timers)
-                obj.app.colorizeTreeNode(obj.j,'waiting');
+                obj.app.colorizeTreeNode(j,'aborted');
             end
         end
         
