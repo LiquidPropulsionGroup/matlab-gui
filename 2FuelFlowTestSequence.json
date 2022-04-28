@@ -53,7 +53,7 @@
     {
 
         "Name": "Line Pruge",
-        "Duration": 2,
+        "Duration": 0.5,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,

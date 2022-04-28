@@ -19,7 +19,7 @@
     {
 
         "Name": "Pressurization",
-        "Duration": 5,
+        "Duration": 10,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": true,
@@ -53,7 +53,7 @@
     {
 
         "Name": "Line Pruge",
-        "Duration": 2,
+        "Duration": 1,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
