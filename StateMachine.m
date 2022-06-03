@@ -129,6 +129,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %                 disp(i)
 %                 A = sprintf('obj.timerReadPost({%d})', i)
                 obj.timers(i) = timer( ...
+                    'Tag','StandInstruction', ...
                     'Name', sequenceNames{i}, ...
                     'ExecutionMode', 'singleShot', ...
                     'StartDelay', sequenceDurations(i));
@@ -202,16 +203,38 @@ classdef StateMachine < matlab.DiscreteEventSystem
         end
 
         function abortTimer(obj)
-            stop(obj.timers);
-            disp("TIMERS ABORTED");
-            disp(obj.n);
-            for j = 1:length(obj.timers)
-                obj.app.colorizeTreeNode(j,'aborted');
+            disp("ABORTING . . .")
+            TimerTempArray = timerfind('Tag','StandInstruction');
+%             disp('Before delete:')
+%             disp('timer temp array:')
+%             disp(TimerTempArray)
+%             disp('timer findall array:')
+%             disp(timerfindall)
+%             disp('timer obj array:')
+%             disp(obj.timers)
+            if (~isempty(TimerTempArray))
+                stop(TimerTempArray);
+                disp("TIMERS ABORTED");
+%                 disp(obj.n);
+                for j = 1:length(obj.timers)
+                    obj.app.colorizeTreeNode(j,'aborted');
+                end
+                delete(TimerTempArray)
+                disp("TIMERS DELETED")
+            else
+                disp("NO TIMERS IN MEMORY")
             end
+%             disp('After delete:')
+%             disp('timer temp array:')
+%             disp(TimerTempArray)
+%             disp('timer findall array:')
+%             disp(timerfindall)
+%             disp('timer obj array:')
+%             disp(obj.timers)
         end
         
         function safe(obj)
-            
+            disp("SAFING SYSTEM . . .")
             % hardcode safe state (same as constructor)
             obj.FUEL_Press = false;
             obj.LOX_Press = false;
@@ -222,7 +245,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.LOX_Purge = false;
             
 %             stop(obj.timers);
-            delete(obj.timers);
+%             delete(obj.timers);
             obj.post();
         end
     end
