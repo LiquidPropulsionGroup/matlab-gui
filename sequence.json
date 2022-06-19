@@ -11,7 +11,8 @@
             "LOX_Vent": false,
             "MAIN": false,
             "FUEL_Purge": false,
-            "LOX_Purge": false
+            "LOX_Purge": false,
+            "IGNITE": false
         }
     },
 
@@ -27,7 +28,8 @@
             "LOX_Vent": true,
             "MAIN": false,
             "FUEL_Purge": false,
-            "LOX_Purge": false
+            "LOX_Purge": false,
+            "IGNITE": false
         }
 
     },
@@ -44,7 +46,8 @@
             "LOX_Vent": true,
             "MAIN": true,
             "FUEL_Purge": false,
-            "LOX_Purge": false
+            "LOX_Purge": false,
+            "IGNITE": true
         }
 
     },
@@ -61,7 +64,8 @@
             "LOX_Vent": false,
             "MAIN": false,
             "FUEL_Purge": true,
-            "LOX_Purge": true
+            "LOX_Purge": true,
+            "IGNITE": false
         }
 
     },
@@ -77,7 +81,8 @@
             "LOX_Vent": false,
             "MAIN": false,
             "FUEL_Purge": false,
-            "LOX_Purge": false
+            "LOX_Purge": false,
+            "IGNITE": false
         }
     }
 }

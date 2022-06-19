@@ -62,7 +62,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 ];
             
             out = jsonencode(containers.Map(obj.KeyList,A));
-%             disp(out)
+            disp(out)
             
         end
         
@@ -109,6 +109,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %             jsonObj = char(fread(file));
             jsonObj = fread(file,'*char');
             obj.sequence = jsondecode(jsonObj');
+            disp(obj.sequence)
             fclose(file);
             
             % create timer array
@@ -118,13 +119,15 @@ classdef StateMachine < matlab.DiscreteEventSystem
             sequenceDurations = [];
             sequenceNames = {};
             struct_names = fieldnames(obj.sequence);
+%             disp(struct_names)
+%             disp(length(struct_names))
             
             for i = 1:length(struct_names)
                 sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration;
                 sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name;
             end
-%             disp(sequenceDurations)
-%             disp(sequenceNames)
+            disp(sequenceDurations)
+            disp(sequenceNames)
 
             % generate timers
             obj.timers = timer.empty(length(sequenceDurations),0);
@@ -172,6 +175,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.MAIN = getfield(state, obj.KeyList{5});
             obj.FUEL_Purge = getfield(state, obj.KeyList{6});
             obj.LOX_Purge = getfield(state, obj.KeyList{7}); % weird fix
+            obj.IGNITE = getfield(state, obj.KeyList{8});
             
             obj.post();
             
