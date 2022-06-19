@@ -62,7 +62,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 ];
             
             out = jsonencode(containers.Map(obj.KeyList,A));
-            disp(out)
+%             disp(out)
             
         end
         
@@ -109,7 +109,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %             jsonObj = char(fread(file));
             jsonObj = fread(file,'*char');
             obj.sequence = jsondecode(jsonObj');
-            disp(obj.sequence)
+%             disp(obj.sequence)
             fclose(file);
             
             % create timer array
@@ -126,8 +126,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
                 sequenceDurations(i) = getfield(obj.sequence, struct_names{i}).Duration;
                 sequenceNames{i} = getfield(obj.sequence, struct_names{i}).Name;
             end
-            disp(sequenceDurations)
-            disp(sequenceNames)
+%             disp(sequenceDurations)
+%             disp(sequenceNames)
 
             % generate timers
             obj.timers = timer.empty(length(sequenceDurations),0);
