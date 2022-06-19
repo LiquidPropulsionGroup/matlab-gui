@@ -7,6 +7,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
         MAIN;
         FUEL_Purge;
         LOX_Purge;
+        IGNITE;
         ip;
         sequence;
         timers;
@@ -25,6 +26,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.MAIN = false;
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
+            obj.IGNITE = false;
             
             obj.n = 1;
             
@@ -35,7 +37,8 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     'LOX_Vent',
                     'MAIN',
                     'FUEL_Purge',
-                    'LOX_Purge'
+                    'LOX_Purge',
+                    'IGNITE'
                 };
 
             obj.app = app;
@@ -55,6 +58,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     obj.MAIN;
                     obj.FUEL_Purge;
                     obj.LOX_Purge;
+                    obj.IGNITE;
                 ];
             
             out = jsonencode(containers.Map(obj.KeyList,A));
@@ -243,6 +247,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.MAIN = false;
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
+            obj.IGNITE = false;
             
 %             stop(obj.timers);
 %             delete(obj.timers);
