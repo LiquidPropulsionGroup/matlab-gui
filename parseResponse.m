@@ -8,5 +8,6 @@ function responseParsed = parseResponse(response)
     responseParsed.LOX_Purge  = tern(response.LOX_Purge, '49', 'CLOSED', '48', 'OPEN');
     responseParsed.LOX_Vent   = tern(response.LOX_Vent, '49', 'OPEN', '48', 'CLOSED');
     responseParsed.MAIN       = tern(response.MAIN, '49', 'CLOSED', '48', 'OPEN');
+    responseParsed.IGNITE     = tern(response.IGNITE, '49', 'OFF', '48','FIRING');
 %     disp(responseParsed)
 end
