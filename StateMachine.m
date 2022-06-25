@@ -8,6 +8,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
         FUEL_Purge;
         LOX_Purge;
         IGNITE;
+        LOXLVL;
         ip;
         sequence;
         timers;
@@ -27,6 +28,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
             obj.IGNITE = false;
+            obj.LOXLVL = 0;
             
             obj.n = 1;
             
@@ -79,12 +81,36 @@ classdef StateMachine < matlab.DiscreteEventSystem
             catch ME
 %                 disp(ME)
                 if (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
-                    disp('=== TIMEOUT ON POLL ===')
+                    disp('=== TIMEOUT ON VALVE POLL ===')
                 end
             end
             
         end
         
+        function responseParsed = pollLOX(obj)
+            % Request a LOXLVL value update from the stand
+            % Enable auxiliary data collection
+%             url = strcat('http://',obj.ip,'3004')
+%             disp('polling LOX...')
+            url = strcat('http://',obj.ip,':3004/serial/auxdata/update');
+            options = weboptions;
+            options.RequestMethod = 'get';
+            options.Timeout = 1;
+            try
+                response = webread(url,options);
+%                 disp('WEBREAD RESPONSE:')
+%                 disp(response)
+                responseParsed = response.LOXLVL;
+%                 disp('EXTRACTED VALUE:')
+%                 disp(responseParsed)
+            catch ME
+                disp(ME)
+                if (strcmp(ME.identifier,'MATLAB:webservices:Timeout')) 
+                    disp('=== TIMEOUT ON LOXLVL POLL ===')
+                end
+            end
+        end
+
         function responseParsed = post(obj)
             % Post a valve state to the stand
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
