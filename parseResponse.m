@@ -9,5 +9,6 @@ function responseParsed = parseResponse(response)
     responseParsed.LOX_Vent   = tern(response.LOX_Vent, '49', 'OPEN', '48', 'CLOSED');
     responseParsed.MAIN       = tern(response.MAIN, '49', 'CLOSED', '48', 'OPEN');
     responseParsed.IGNITE     = tern(response.IGNITE, '49', 'OFF', '48','FIRING');
+    responseParsed.WATER_Flow = tern(response.WATER_Flow, '49', 'CLOSED', '48', 'OPEN');
 %     disp(responseParsed)
 end
