@@ -9,7 +9,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
         LOX_Purge;
         IGNITE;
         LOXLVL;
-        WATER_Flow;
         ip;
         sequence;
         timers;
@@ -30,7 +29,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.LOX_Purge = false;
             obj.IGNITE = false;
             obj.LOXLVL = 0;
-            obj.WATER_Flow = false;
             
             obj.n = 1;
             
@@ -42,8 +40,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     'MAIN',
                     'FUEL_Purge',
                     'LOX_Purge',
-                    'IGNITE',
-                    'WATER_Flow'
+                    'IGNITE'
                 };
 
             obj.app = app;
@@ -64,7 +61,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
                     obj.FUEL_Purge;
                     obj.LOX_Purge;
                     obj.IGNITE;
-                    obj.WATER_Flow;
                 ];
             
             out = jsonencode(containers.Map(obj.KeyList,A));
@@ -120,7 +116,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
             url = strcat('http://',obj.ip,':3003/serial/valve/update');
             options = weboptions;
             options.Timeout = 1;
-            disp(stateToMessage(obj))
             try
                 response = webwrite(url, stateToMessage(obj));
                 responseParsed = parseResponse(response);
@@ -207,7 +202,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.FUEL_Purge = getfield(state, obj.KeyList{6});
             obj.LOX_Purge = getfield(state, obj.KeyList{7}); % weird fix
             obj.IGNITE = getfield(state, obj.KeyList{8});
-            obj.WATER_Flow = getfield(state, obj.KeyList{9});
             
             obj.post();
             
@@ -284,7 +278,6 @@ classdef StateMachine < matlab.DiscreteEventSystem
             obj.FUEL_Purge = false;
             obj.LOX_Purge = false;
             obj.IGNITE = false;
-            obj.WATER_Flow = false;
             
 %             stop(obj.timers);
 %             delete(obj.timers);
