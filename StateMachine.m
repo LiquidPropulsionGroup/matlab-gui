@@ -91,6 +91,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
         end
         
+        % Deprecated
         function responseParsed = pollLOX(obj)
             % Request a LOXLVL value update from the stand
             % Enable auxiliary data collection
