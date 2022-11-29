@@ -274,7 +274,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
 %             disp(obj.timers)
         end
         
-        function safe(obj)
+        function responseParsed = safe(obj)
             disp("SAFING SYSTEM . . .")
             % hardcode safe state (same as constructor)
             obj.FUEL_Press = false;
@@ -289,7 +289,7 @@ classdef StateMachine < matlab.DiscreteEventSystem
             
 %             stop(obj.timers);
 %             delete(obj.timers);
-            obj.post();
+            responseParsed = obj.post();
         end
     end
 end
