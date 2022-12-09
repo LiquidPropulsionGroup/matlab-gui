@@ -1,9 +1,9 @@
 {
-    
+
     "0": 
     {
         "Name": "Safe State",
-        "Duration": 3,
+        "Duration": 10,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
@@ -12,13 +12,12 @@
             "MAIN": false,
             "FUEL_Purge": false,
             "LOX_Purge": false,
-            "IGNITE": false
+            "IGNITE": false,
+            "WATER_Flow": false,
         }
     },
-
     "1":
     {
-
         "Name": "Pressurization",
         "Duration": 10,
         "State": {
@@ -29,14 +28,44 @@
             "MAIN": false,
             "FUEL_Purge": false,
             "LOX_Purge": false,
-            "IGNITE": false
+            "IGNITE": false,
+            "WATER_Flow": false,
         }
-
     },
-
     "2":
     {
-
+        "Name": "Ignition Sequence",
+        "Duration": 6,
+        "State": {
+            "FUEL_Press": true,
+            "LOX_Press": true,
+            "FUEL_Vent": true,
+            "LOX_Vent": true,
+            "MAIN": false,
+            "FUEL_Purge": false,
+            "LOX_Purge": false,
+            "IGNITE": true,
+            "WATER_Flow": false,
+            }
+    },
+    "3":
+    {
+        "Name": "Coolant Flow",
+        "Duration": 2,
+        "State": {
+            "FUEL_Press": true,
+            "LOX_Press": true,
+            "FUEL_Vent": true,
+            "LOX_Vent": true,
+            "MAIN": false,
+            "FUEL_Purge": false,
+            "LOX_Purge": false,
+            "IGNITE": true,
+            "WATER_Flow": true,
+            }
+    },
+    "4":
+    {
         "Name": "Fire",
         "Duration": 10,
         "State": {
@@ -47,16 +76,14 @@
             "MAIN": true,
             "FUEL_Purge": false,
             "LOX_Purge": false,
-            "IGNITE": true
+            "IGNITE": false,
+            "WATER_Flow": true,
         }
-
     },
-
-    "3":
+    "5":
     {
-
         "Name": "De Press",
-        "Duration": 5,
+        "Duration": 10,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
@@ -65,15 +92,15 @@
             "MAIN": false,
             "FUEL_Purge": true,
             "LOX_Purge": true,
-            "IGNITE": false
+            "IGNITE": false,
+            "WATER_Flow": true,
         }
-
     },
-    
-    "4": 
+
+    "6": 
     {
         "Name": "Safe State",
-        "Duration": 3,
+        "Duration": 20,
         "State": {
             "FUEL_Press": false,
             "LOX_Press": false,
@@ -82,7 +109,8 @@
             "MAIN": false,
             "FUEL_Purge": false,
             "LOX_Purge": false,
-            "IGNITE": false
+            "IGNITE": false,
+            "WATER_Flow": false,
         }
     }
 }
